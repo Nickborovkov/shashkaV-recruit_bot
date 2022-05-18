@@ -1,6 +1,6 @@
 <template>
-    <b-row align-h="center">
-        <b-col xs="12" md="3" class="mt-1">
+    <b-row align-h="center" style="margin: 0; padding: 0;">
+        <b-col xs="12" md="6" lg="4" class="mt-1">
             <b-card>
                     <h5 class="mb-3">Запись на консультацию</h5>
 
@@ -24,6 +24,9 @@
                         <span class="text-danger" v-if="!$v.newBotMessage.userPhone.required && $v.newBotMessage.userPhone.$dirty">
                             Поле обязательно
                         </span>
+                        <span class="text-danger" v-if="!$v.newBotMessage.userPhone.minLength && $v.newBotMessage.userPhone.$dirty">
+                                    Введите корректный номер телефона
+                                </span>
                     </b-form-group>
 
                     <b-form-group label="Ваш email">
@@ -67,7 +70,7 @@
 </template>
 
 <script>
-    import { required, email } from 'vuelidate/lib/validators'
+    import { required, email, minLength } from 'vuelidate/lib/validators'
     import {instance} from "./api/instance";
 
     export default {
@@ -90,7 +93,7 @@
         validations: {
             newBotMessage: {
                 userName: { required },
-                userPhone: { required },
+                userPhone: { required, minLength: minLength(16) },
                 userEmail: { required, email },
                 userInfocenters: { required },
                 userTheme: { required }
